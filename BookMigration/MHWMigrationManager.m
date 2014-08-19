@@ -134,6 +134,13 @@
     NSString *modelPath = nil;
     for (modelPath in modelPaths) {
         model = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:modelPath]];
+
+		if ([model isEqual:sourceModel] ||
+			[model.entityVersionHashesByName isEqual:sourceModel.entityVersionHashesByName] ) {
+			// skip the equal models
+			continue;
+		}
+
         mapping = [NSMappingModel mappingModelFromBundles:@[[NSBundle mainBundle]]
                                            forSourceModel:sourceModel
                                          destinationModel:model];
